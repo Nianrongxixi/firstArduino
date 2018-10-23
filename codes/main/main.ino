@@ -9,10 +9,7 @@
 #define VIBRATION 3
 
 SoftwareSerial SoftSerial(8, 7);
-File distanceFile;
-File pirFile;
-File loudnessFile;
-File vibrationFile;
+File logFile;
 
 // defines variables
 long duration;
@@ -28,16 +25,13 @@ void setup()
     pinMode(PIR_MOTION_SENSOR, INPUT);
     Serial.begin(9600); // Starts the serial communication
 
-    // Serial.println("Setting up file on SD card");
-    setupFile(distanceFile, "DIS000.TXT");
-    setupFile(pirFile, "PIR000.TXT");
-    setupFile(loudnessFile, "LOU000.TXT");
-    setupFile(vibrationFile, "VIB000.TXT");
+    // Serial.println("Setting up logFile on SD card");
+    setupFile();
 
     SoftSerial.begin(9600); // the SoftSerial baud rate
 }
 
-void setupFile(File file, const char *fileName)
+void setupFile()
 {
     pinMode(10, OUTPUT);
 
@@ -48,7 +42,7 @@ void setupFile(File file, const char *fileName)
     }
 
     char tempFileName[15];
-    strcpy(tempFileName, fileName);
+    strcpy(tempFileName, "LOG000.TXT");
 
     for (uint8_t i = 0; i < 100; i++)
     {
@@ -62,14 +56,15 @@ void setupFile(File file, const char *fileName)
             break;
         }
     }
-    file = SD.open(tempFileName, FILE_WRITE);
-    if (!file)
+    logFile = SD.open(tempFileName, FILE_WRITE);
+    if (!logFile)
     {
         Serial.print("FAILED TO CREATE ");
     }
     else
     {
         Serial.print("Writing to ");
+        logFile.println("distance,pir,loudness,vibration");
     }
 
     Serial.println(tempFileName);
@@ -97,45 +92,31 @@ void loop()
     // Calculating the distance
     distance = duration * 0.034 / 2;
 
-    // Prints the distance on the Serial Monitor
-    // Serial.print("Distance: ");
-    // Serial.println(distance);
-
     // NEED TO BE CONSIDERED
     if (digitalRead(PIR_MOTION_SENSOR))
-        pirData = "Hi,people is coming";
+        pirData = "People is coming";
     //if it detects the moving people?
     else
         pirData = "Watching";
     // Serial.println(pirData);
 
-    delay(500);
-
     // Write the data to the SD card
-    outData(distanceFile, distance);
-    delay(500);
-    outData(pirFile, pirData);
-    delay(500);
-    outData(loudnessFile, loudness);
-    delay(500);
-    outData(vibrationFile, vibrationData)
-
-    delay(500);
+    outData();
 }
 
 //
 // outData
 //
-void outData(File file, String data)
+void outData()
 {
-    // if the file is available, write to it:
-    if (file)
+    // if the logFile is available, write to it:
+    if (logFile)
     {
-        file.println(data);
+        logFile.println(String(distance) + "," + pirData + "," + String(loudness) + "," + String(vibrationData));
 
         // print to the serial port too:
-        Serial.println(data);
+        Serial.println(String(distance) + "," + pirData + "," + String(loudness) + "," + String(vibrationData));
     }
-    Serial.println(!file);
-    file.flush();
+    Serial.println(!logFile);
+    logFile.flush();
 }
