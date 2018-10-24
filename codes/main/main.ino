@@ -7,7 +7,7 @@
 #define CHIP_SELECT 10      // For an Uno it's 10.
 #define PIR_MOTION_SENSOR 2 // Use pin 2 to receive the signal from the module
 #define TRIG_PIN 9          // Distance sensor trigger pin
-#define ECHO_PIN 8          // Distance sensor echo pin
+#define ECHO_PIN 7          // Distance sensor echo pin
 #define LOUDNESS 0
 #define VIBRATION 3
 
