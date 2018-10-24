@@ -1,3 +1,6 @@
+#include <Time.h>
+#include <TimeLib.h>
+
 #include <SoftwareSerial.h>
 #include <SD.h>
 
@@ -64,7 +67,7 @@ void setupFile()
     else
     {
         Serial.print("Writing to ");
-        logFile.println("distance,pir,loudness,vibration");
+        logFile.println("distance,pir,loudness,vibration,timestamp");
     }
 
     Serial.println(tempFileName);
@@ -112,10 +115,10 @@ void outData()
     // if the logFile is available, write to it:
     if (logFile)
     {
-        logFile.println(String(distance) + "," + pirData + "," + String(loudness) + "," + String(vibrationData));
+        logFile.println(String(distance) + "," + pirData + "," + String(loudness) + "," + String(vibrationData) + "," + String(hour()) + ":" + String(minute()) + ":" + String(second()) + ":" + String(millis()));
 
         // print to the serial port too:
-        Serial.println(String(distance) + "," + pirData + "," + String(loudness) + "," + String(vibrationData));
+        Serial.println(String(distance) + "," + pirData + "," + String(loudness) + "," + String(vibrationData) + "," + String(hour()) + ":" + String(minute()) + ":" + String(second()) + ":" + String(millis()));
     }
     Serial.println(!logFile);
     logFile.flush();
