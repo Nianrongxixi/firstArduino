@@ -6,7 +6,7 @@ This is project Coffee Sense. Coffee Sense try to understand how people, in T-ro
 
 ## Slide 2
 
-People may put coins into the cash box and get the coffee, or just have the coffee, for a specifically time.
+People may drop coins and get the coffee, or just have the coffee for that time.
 
 ## Slide 3
 
@@ -16,7 +16,7 @@ The distance, motion, and the drop of coins can direct to the status of payment.
 
 ## Slides 4-5
 
-Several problems were met includes: 
+We met and solved problems such as: how to fitness, sensitivity, and accuracy is; integration of modules; have a functional code; decorate and deploy the installation; risk of short circuit between modules; power supply.
 
 ## Slides 6
 
