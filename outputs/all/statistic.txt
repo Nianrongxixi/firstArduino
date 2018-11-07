@@ -1,0 +1,2 @@
+coffee: 42
+pay: 4
